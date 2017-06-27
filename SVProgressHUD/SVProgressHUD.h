@@ -39,7 +39,8 @@ typedef NS_ENUM(NSUInteger, SVProgressHUDMaskType) {
 
 typedef NS_ENUM(NSUInteger, SVProgressHUDAnimationType) {
     SVProgressHUDAnimationTypeFlat,     // default animation type, custom flat animation (indefinite animated ring)
-    SVProgressHUDAnimationTypeNative    // iOS native UIActivityIndicatorView
+    SVProgressHUDAnimationTypeNative,   // iOS native UIActivityIndicatorView
+    SVProgressHUDAnimationTypeCustom    // custom animation view type
 };
 
 @interface SVProgressHUD : UIView
@@ -70,7 +71,7 @@ typedef NS_ENUM(NSUInteger, SVProgressHUDAnimationType) {
 @property (assign, nonatomic) NSTimeInterval fadeOutAnimationDuration; // default is 0.15
 
 @property (assign, nonatomic) CGSize defaultSize; // default is 100x100
-
+@property (strong, nonatomic) UIView *customAnimationView UI_APPEARANCE_SELECTOR;
 
 + (void)setDefaultStyle:(SVProgressHUDStyle)style;                  // default is SVProgressHUDStyleLight
 + (void)setDefaultMaskType:(SVProgressHUDMaskType)maskType;         // default is SVProgressHUDMaskTypeNone
@@ -92,6 +93,7 @@ typedef NS_ENUM(NSUInteger, SVProgressHUDAnimationType) {
 + (void)setFadeInAnimationDuration:(NSTimeInterval)duration;        // default is 0.15 seconds
 + (void)setFadeOutAnimationDuration:(NSTimeInterval)duration;       // default is 0.15 seconds
 + (void)setDefaultSize:(CGSize)size;                                // default is 100x100
++ (void)setCustomAnimationView:(UIView *)customAnimationView;       // default is nil
 
 #pragma mark - Show Methods
 
