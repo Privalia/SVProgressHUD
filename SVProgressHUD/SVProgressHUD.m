@@ -191,6 +191,10 @@ static const CGFloat SVProgressHUDDefaultAnimationDuration = 0.15;
     [self sharedView].defaultSize = size;
 }
 
++ (void)setCustomAnimationView:(UIView *)customAnimationView {
+    [self sharedView].customAnimationView = customAnimationView;
+}
+
 #pragma mark - Show Methods
 
 + (void)show {
@@ -1098,7 +1102,18 @@ static const CGFloat SVProgressHUDDefaultAnimationDuration = 0.15;
 
 - (UIView*)indefiniteAnimatedView {
     // Get the correct spinner for defaultAnimationType
-    if(self.defaultAnimationType == SVProgressHUDAnimationTypeFlat){
+    if(self.defaultAnimationType == SVProgressHUDAnimationTypeCustom){
+        // Check if spinner exists and is an object of different class
+        if(_indefiniteAnimatedView && ![_indefiniteAnimatedView isKindOfClass:[_customAnimationView class]]){
+            [_indefiniteAnimatedView removeFromSuperview];
+            _indefiniteAnimatedView = nil;
+        }
+
+        if(!_indefiniteAnimatedView && _customAnimationView){
+            _indefiniteAnimatedView = _customAnimationView;
+        }
+    }
+    else if(self.defaultAnimationType == SVProgressHUDAnimationTypeFlat){
         // Check if spinner exists and is an object of different class
         if(_indefiniteAnimatedView && ![_indefiniteAnimatedView isKindOfClass:[SVIndefiniteAnimatedView class]]){
             [_indefiniteAnimatedView removeFromSuperview];
@@ -1402,6 +1417,10 @@ static const CGFloat SVProgressHUDDefaultAnimationDuration = 0.15;
 
 - (void)setFadeOutAnimationDuration:(NSTimeInterval)duration  {
     if (!_isInitializing) _fadeOutAnimationDuration = duration;
+}
+
+- (void)setCustomAnimationView:(UIView *)customAnimationView{
+    if (!_isInitializing) _customAnimationView = customAnimationView;
 }
 
 @end
